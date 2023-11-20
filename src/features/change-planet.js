@@ -153,24 +153,26 @@ const setInitalActiveTabState = () => {
   const activeContentTab = document.querySelectorAll(
     '.navigation-planet-detail.w--tab-active'
   )
-  const innerContent = activeContentTab[0].querySelectorAll(
-    '.navigation-planet-detail-inner'
-  )
-  const firstInnerContent = innerContent[0]
-  if (firstInnerContent) {
-    const firstInnerContentDot =
-      firstInnerContent.querySelector('.navigation-step')
-    if (firstInnerContentDot) {
-      innerContent.forEach((element) => {
-        const singleContentDot = element.querySelector('.navigation-step')
-        element.classList.remove('is-active')
-        singleContentDot.classList.remove('is-active')
-      })
-      firstInnerContent.classList.add('is-active')
-      firstInnerContentDot.classList.add('is-active')
+  if (activeContentTab) {
+    const innerContent = activeContentTab[0].querySelectorAll(
+      '.navigation-planet-detail-inner'
+    )
+    const firstInnerContent = innerContent[0]
+    if (firstInnerContent) {
+      const firstInnerContentDot =
+        firstInnerContent.querySelector('.navigation-step')
+      if (firstInnerContentDot) {
+        innerContent.forEach((element) => {
+          const singleContentDot = element.querySelector('.navigation-step')
+          element.classList.remove('is-active')
+          singleContentDot.classList.remove('is-active')
+        })
+        firstInnerContent.classList.add('is-active')
+        firstInnerContentDot.classList.add('is-active')
+      }
     }
+    setClickAttributes()
   }
-  setClickAttributes()
 }
 
 const setActiveContentTab = () => {
