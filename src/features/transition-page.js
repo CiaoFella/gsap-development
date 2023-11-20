@@ -6,7 +6,6 @@ let nextPageLink
 
 $('.is-liquid-link').on('click', function (e) {
   e.preventDefault()
-  console.log()
   nextPageLink = $(this).attr('href')
   if ($(e.target).hasClass('is-back-home')) {
     $.ajax({
