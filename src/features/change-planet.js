@@ -12,8 +12,9 @@ if (viewer) {
   })
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initializeFunction() {
   const allPlanetTabs = document.querySelectorAll('.navigation-tab-step')
+  setClickAttributes()
   setInitalActiveTabState()
   intitializeMenuClick()
   viewer.addEventListener('ez-planet', planetClick)
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startPlanetDetailAnimation(e)
     })
   })
-})
+}
 
 const disableScroll = () => {
   const body = document.querySelector('body')
@@ -221,3 +222,5 @@ const setClickAttributes = () => {
     }
   })
 }
+
+initializeFunction()
