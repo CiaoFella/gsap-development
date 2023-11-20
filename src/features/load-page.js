@@ -2,6 +2,7 @@ import gsap from 'gsap'
 import CustomEase from 'gsap/CustomEase'
 import $ from 'jquery'
 import SplitType from 'split-type'
+gsap.registerPlugin(CustomEase)
 
 const progressCircle = document.getElementById('is-progress-circle')
 const progressRotatingPlanet = document.querySelector(
@@ -9,9 +10,16 @@ const progressRotatingPlanet = document.querySelector(
 )
 const progressAnimationClick = document.querySelector('#js-page-loader-click')
 const content = document.querySelector('.section-hero')
+
 $('body').addClass('overflow-hidden')
 progressAnimationClick.style.pointerEvents = 'none'
 content.style.opacity = '0'
+
+$(window).on('resize', function () {
+  setTimeout(() => {
+    endLoaderAnimation()
+  }, 1000)
+})
 
 function animateLines() {
   $('[svg="animated"]').css({
@@ -85,6 +93,7 @@ function heroAnimation() {
   const headline = headlineWrap.querySelectorAll('.heading-style-h1')
   const subHeadline = headlineWrap.querySelector('.heading-style-h4')
   const horizonIcon = headlineWrap.querySelector('.horizon-icon')
+  const scrollIndicator = document.querySelector('.scroll-indicator')
   const headlineSplit = new SplitType(headline)
   const subHeadlineSplit = new SplitType(subHeadline)
   const delay = 1
@@ -120,20 +129,27 @@ function heroAnimation() {
     },
     0
   )
-  heroTl.to(
+  heroTl.fromTo(
     headlineWrap,
+    {
+      y: '20%',
+    },
     {
       delay: delay,
       duration: duration + 1.5,
-      y: '-20%',
+      y: '0%',
     },
     0
   )
-  heroTl.from(
+  heroTl.fromTo(
     horizonIcon,
     {
       rotationZ: -90,
       opacity: 0,
+    },
+    {
+      rotationZ: 0,
+      opacity: 1,
       delay: delay + 1,
       duration: 2,
       ease: 'power4.out',
@@ -171,31 +187,41 @@ function heroAnimation() {
     },
     0
   )
+  heroTl.from(scrollIndicator, {
+    opacity: 0,
+    scale: '0.5',
+    duration: 1,
+    ease: 'power4.out',
+  })
 }
 
-let tl = gsap.timeline({
-  onComplete: endLoaderAnimation,
-})
-gsap.to(progressCircle, {
-  delay: 0.75,
-  strokeDashoffset: 0,
-  duration: loaderDuration + 1,
-  ease: CustomEase.create('custom', customEase),
-})
-tl.to(counter, {
-  onUpdate: updateLoaderText,
-  delay: 0.75,
-  value: 100,
-  duration: loaderDuration,
-  ease: CustomEase.create('custom', customEase),
-})
-tl.to(
-  progressRotatingPlanet,
-  {
+const startLoaderAnimation = () => {
+  let tl = gsap.timeline({
+    onComplete: endLoaderAnimation,
+  })
+  gsap.to(progressCircle, {
     delay: 0.75,
-    rotation: 1440,
-    duration: loaderDuration + 0.4,
-    ease: 'circ.out',
-  },
-  0
-)
+    strokeDashoffset: 0,
+    duration: loaderDuration + 1,
+    ease: CustomEase.create('custom', customEase),
+  })
+  tl.to(counter, {
+    onUpdate: updateLoaderText,
+    delay: 0.75,
+    value: 100,
+    duration: loaderDuration,
+    ease: CustomEase.create('custom', customEase),
+  })
+  tl.to(
+    progressRotatingPlanet,
+    {
+      delay: 0.75,
+      rotation: 1440,
+      duration: loaderDuration + 0.3,
+      ease: 'circ.out',
+    },
+    0
+  )
+}
+
+startLoaderAnimation()
