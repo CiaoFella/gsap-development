@@ -7,6 +7,9 @@ const headline = headlineWrap.querySelectorAll('.heading-style-h1')
 const contentHeadline = document.querySelectorAll('.heading-style-h3 ')
 const textContent = document.querySelectorAll('.content-text-content p')
 const horizonIcon = headlineWrap.querySelector('.horizon-icon')
+const allSMIcons = document.querySelectorAll(
+  '.content-text-content .sm-icons_white .footer_icon-link'
+)
 const headlineSplit = new SplitType(headline)
 const textContentSplit = new SplitType(textContent)
 const delay = 1.5
@@ -75,6 +78,18 @@ contentTl.from(
     delay: delay + 1,
     duration: 2,
     ease: 'power4.out',
+  },
+  0
+)
+contentTl.from(
+  allSMIcons,
+  {
+    opacity: 0,
+    y: '100%',
+    delay: delay,
+    duration: 0.5,
+    stagger: 0.05,
+    ease: 'power2.out',
   },
   0
 )
