@@ -84,6 +84,7 @@ const planetClick = (event) => {
 }
 
 const startPlanetDetailAnimation = (e) => {
+  let i = 0
   const activeTabDataAttribute = document.querySelector(
     '.navigation-tab-step.w--current'
   ).dataset.ezClick
@@ -100,51 +101,59 @@ const startPlanetDetailAnimation = (e) => {
     const splitInformationText = new SplitType(planetDetailInformationList, {
       types: 'lines',
     })
-    const horizonIcon =
-      currentlySelectedInnerItem.querySelector('.horizon-icon')
-    const allInformationItems = [horizonIcon, splitInformationText.lines]
+    const horizonIcon = currentlySelectedInnerItem.querySelector(
+      '.horizon-icon.is-detail'
+    )
+    const delay = 0.5
+    const duration = 1
 
     function triggerPlanetAnimations() {
-      if (planetDetailContentList.length > 0) {
-        gsap.fromTo(
-          planetDetailContentList,
-          {
-            opacity: 0,
-            x: '-100%',
-          },
-          {
-            opacity: 1,
-            x: '0%',
-            delay: 0.5,
-            duration: 1,
-            stagger: 0.1,
-            ease: 'power4.out',
-          }
-        )
-        gsap.fromTo(
-          allInformationItems,
-          {
-            opacity: 0,
-            x: '100%',
-          },
-          {
-            opacity: 1,
-            x: '0%',
-            delay: 0.5,
-            duration: 1,
-            stagger: 0.05,
-            ease: 'power4.out',
-          }
-        )
-      }
+      gsap.fromTo(
+        planetDetailContentList,
+        {
+          opacity: 0,
+          x: '-100%',
+        },
+        {
+          opacity: 1,
+          x: '0%',
+          delay: delay,
+          duration: duration,
+          stagger: 0.1,
+          ease: 'power4.out',
+        }
+      )
+      gsap.fromTo(
+        splitInformationText.lines,
+        {
+          opacity: 0,
+          x: '100%',
+        },
+        {
+          opacity: 1,
+          x: '0%',
+          delay: delay,
+          duration: duration,
+          stagger: 0.05,
+          ease: 'power4.out',
+        }
+      )
+      gsap.from(horizonIcon, {
+        opacity: 0,
+        rotation: -135,
+        delay: delay + 0.5,
+        duration: duration,
+        ease: 'power4.out',
+      })
     }
     if (
-      (currentState === activeTabDataAttribute && e.pointerId === 1) ||
+      (currentState === activeTabDataAttribute && e.pointerId === 1 && i > 0) ||
       (currentState === 'sun' && activeTabDataAttribute === 'sun')
     ) {
       return
     } else {
       triggerPlanetAnimations()
+      i = i + 1
     }
   }, 125)
 }
